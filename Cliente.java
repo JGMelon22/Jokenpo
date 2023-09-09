@@ -1,15 +1,20 @@
 import java.rmi.*;
 import java.util.Scanner;
 
+import service.ConsoleClear;
+import service.ConsoleColor;
+
 public class Cliente {
     public static void main(String args[]) {
 
-        clearScreen(); // Limpa o console do cliente automaticamente a cada jogada
+        ConsoleClear.Clear(); // Limpa o console do cliente automaticamente a cada jogada
 
         try {
 
             if (args.length == 0) {
-                System.out.println("Atenção: deve ser passado como argumento o endereçoo IP do servidor.");
+                System.out.println(
+                        ConsoleColor.RED + "Atenção: deve ser passado como argumento o endereçoo IP do servidor."
+                                + ConsoleColor.RESETCOLOR);
                 return;
             }
 
@@ -17,7 +22,7 @@ public class Cliente {
             String enderecoServ = args[0];
             ResultadoDist servidor = (ResultadoDist) Naming.lookup("rmi://" + enderecoServ + "/ServidorJogo");
 
-            System.out.print("Escolha entre pedra, papel ou tesoura: ");
+            System.out.print(ConsoleColor.GREEN + "Escolha entre pedra, papel ou tesoura: ");
             String item = sc.nextLine().toLowerCase().trim();
 
             String resultado = servidor.julgaItens(item);
@@ -28,10 +33,7 @@ public class Cliente {
         } catch (Exception e) {
             e.getMessage();
         }
-    }
 
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        ConsoleColor.RESETCOLOR.toString();
     }
 }
