@@ -20,7 +20,6 @@ public class ServidorImpl extends UnicastRemoteObject implements ResultadoDist {
         } else if ((item.equals("pedra") && itensRandomicos.equals("tesoura"))
                 || (item.equals("tesoura") && itensRandomicos.equals("papel"))
                 || (item.equals("papel") && itensRandomicos.equals("pedra"))) {
-
             System.out.println(String.format("Cliente venceu! Cliente escolheu: %s\nServidor escolheu: %s", item,
                     itensRandomicos));
             return String.format("Cliente venceu! Cliente escolheu: %s\nServidor escolheu: %s", item,

@@ -9,30 +9,35 @@ public class Cliente {
 
         ConsoleClear.Clear(); // Limpa o console do cliente automaticamente a cada jogada
 
-        try {
+        // Iniciando em uma thread apartada para gozar de multithread
+        Thread t1 = new Thread(() -> {
+            try {
 
-            if (args.length == 0) {
-                System.out.println(
-                        ConsoleColor.RED + "Atenção: deve ser passado como argumento o endereçoo IP do servidor."
-                                + ConsoleColor.RESETCOLOR);
-                return;
+                if (args.length == 0) {
+                    System.out.println(
+                            ConsoleColor.RED + "Atenção: deve ser passado como argumento o endereçoo IP do servidor."
+                                    + ConsoleColor.RESETCOLOR);
+                    return;
+                }
+
+                Scanner sc = new Scanner(System.in);
+                String enderecoServ = args[0];
+                ResultadoDist servidor = (ResultadoDist) Naming.lookup("rmi://" + enderecoServ + "/ServidorJogo");
+
+                System.out.print(ConsoleColor.GREEN + "Escolha entre pedra, papel ou tesoura: ");
+                String item = sc.nextLine().toLowerCase().trim();
+
+                String resultado = servidor.julgaItens(item);
+                System.out.println(resultado);
+
+                sc.close(); // Fecha recursos da classe Scanner. Poderiamos usar try-with-resources também
+
+            } catch (Exception e) {
+                e.getMessage();
             }
+        });
 
-            Scanner sc = new Scanner(System.in);
-            String enderecoServ = args[0];
-            ResultadoDist servidor = (ResultadoDist) Naming.lookup("rmi://" + enderecoServ + "/ServidorJogo");
-
-            System.out.print(ConsoleColor.GREEN + "Escolha entre pedra, papel ou tesoura: ");
-            String item = sc.nextLine().toLowerCase().trim();
-
-            String resultado = servidor.julgaItens(item);
-            System.out.println(resultado);
-
-            sc.close(); // Fecha recursos da classe Scanner. Poderiamos usar try-with-resources também
-
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        t1.start();
 
         ConsoleColor.RESETCOLOR.toString();
     }
