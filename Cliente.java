@@ -15,7 +15,7 @@ public class Cliente {
 
                 if (args.length == 0) {
                     System.out.println(
-                            ConsoleColor.RED + "Atenção: deve ser passado como argumento o endereçoo IP do servidor."
+                            ConsoleColor.RED + "Atenção: deve ser passado como argumento o endereço IP do servidor."
                                     + ConsoleColor.RESETCOLOR);
                     return;
                 }
